@@ -133,7 +133,8 @@ function () {
         return console.log('Please provide a valid selector.');
       }
 
-      this.texts = this.options.texts;
+      this.lineBreak = this.options.lineBreak;
+      this.texts = this.normalizeTexts(this.options.texts);
       this.speed = this.options.speed;
       this.blinkInterval = this.options.blinkInterval;
       this.typing = false;
@@ -155,9 +156,7 @@ function () {
   }, {
     key: "start",
     value: function start() {
-      console.log('should start');
       this.isSelectorInput() ? this.initInputSelector() : this.initNoneInputSelector();
-      console.log(this.shouldStart());
 
       if (this.shouldStart()) {
         this.typing = true;
@@ -187,9 +186,15 @@ function () {
     value: function typeTexts(index) {
       var _this = this;
 
-      if (this.loop && this.texts[index] === undefined) {
-        this.typeTexts(0);
-        return;
+      if (this.texts[index] === undefined) {
+        if (this.loop) {
+          this.typeTexts(0);
+          return;
+        } else {
+          if (this.clear) {
+            this.selector[this.typeTarget] = '';
+          }
+        }
       }
 
       if (index < this.texts.length) {
@@ -210,12 +215,25 @@ function () {
       var _this2 = this;
 
       if (index <= text.length) {
+        if (this.shouldLineBreak(text[index])) {
+          index += 3;
+        }
+
         this.selector[this.typeTarget] = "".concat(text.substring(0, index)).concat(this.getBlinker());
         var timeoutName = "typeText".concat(textArrayIndex).concat(index);
         setTimeoutStore[timeoutName] = setTimeout(function () {
           _this2.typeText(text, index + 1, textArrayIndex, cb);
         }, this.speed);
       } else {
+        if (this.lineBreak) {
+          this.selector[this.typeTarget] = "".concat(text);
+
+          var _timeoutName = "typeTextCb".concat(textArrayIndex).concat(index);
+
+          setTimeoutStore[_timeoutName] = setTimeout(cb, this.blinkInterval);
+          return;
+        }
+
         var blinkingTimeout = "blinding".concat(textArrayIndex).concat(index); // let it blink
 
         setTimeoutStore[blinkingTimeout] = setTimeout(function () {
@@ -240,15 +258,19 @@ function () {
       var _this3 = this;
 
       if (index <= text.length) {
+        if (this.shouldLineBreak(text[text.length - index])) {
+          index = index + 3;
+        }
+
         this.selector[this.typeTarget] = "".concat(text.substring(0, text.length - index)).concat(this.getBlinker());
         var timeoutName = "clearText".concat(textArrayIndex).concat(index);
         setTimeoutStore[timeoutName] = setTimeout(function () {
           _this3.clearText(text, index + 1, textArrayIndex, cb);
         }, this.speed);
       } else {
-        var _timeoutName = "clearTextCb".concat(textArrayIndex).concat(index);
+        var _timeoutName2 = "clearTextCb".concat(textArrayIndex).concat(index);
 
-        setTimeoutStore[_timeoutName] = setTimeout(cb, this.pause);
+        setTimeoutStore[_timeoutName2] = setTimeout(cb, this.blinkInterval);
       }
     }
   }, {
@@ -279,6 +301,20 @@ function () {
       return this.selector[this.typeTarget].indexOf('|') !== this.selector[this.typeTarget].length ? '|' : '';
     }
   }, {
+    key: "normalizeTexts",
+    value: function normalizeTexts(texts) {
+      if (this.lineBreak) {
+        texts = [texts.join('<br>')];
+      }
+
+      return texts;
+    }
+  }, {
+    key: "shouldLineBreak",
+    value: function shouldLineBreak(char) {
+      return char === '<' || char === '>';
+    }
+  }, {
     key: "mergeOptions",
     value: function mergeOptions(options) {
       var _this4 = this;
@@ -289,7 +325,8 @@ function () {
         clear: true,
         loop: true,
         selector: '.type-writer',
-        texts: []
+        texts: [],
+        lineBreak: false
       };
       Object.keys(options).forEach(function (key) {
         _this4.options[key] = options[key];

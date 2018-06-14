@@ -1,5 +1,5 @@
 {
-  "name": "type-writer",
+  "name": "@zai/type-writer",
   "version": "1.0.0",
   "description": "A nice type writer to use",
   "main": "dist/type-writer.js",

@@ -16,7 +16,8 @@ export default class TypeWriter {
       return console.log('Please provide a valid selector.');
     }
 
-    this.texts = this.options.texts;
+    this.lineBreak = this.options.lineBreak;
+    this.texts = this.normalizeTexts(this.options.texts);
     this.speed = this.options.speed;
     this.blinkInterval = this.options.blinkInterval;
     this.typing = false;
@@ -36,12 +37,10 @@ export default class TypeWriter {
   }
 
   start () {
-    console.log('should start');
     this.isSelectorInput()
       ? this.initInputSelector()
       : this.initNoneInputSelector();
 
-    console.log(this.shouldStart());
     if (this.shouldStart()) {
       this.typing = true;
 
@@ -68,9 +67,15 @@ export default class TypeWriter {
   }
 
   typeTexts (index) {
-    if (this.loop && this.texts[index] === undefined) {
-      this.typeTexts(0);
-      return;
+    if (this.texts[index] === undefined) {
+      if (this.loop) {
+        this.typeTexts(0);
+        return;
+      } else {
+        if (this.clear) {
+          this.selector[this.typeTarget] = '';
+        }
+      }
     }
 
     if (index < this.texts.length) {
@@ -88,6 +93,10 @@ export default class TypeWriter {
 
   typeText (text, index, textArrayIndex, cb) {
     if (index <= text.length) {
+      if (this.shouldLineBreak(text[index])) {
+        index += 3;
+      }
+
       this.selector[this.typeTarget] = `${text.substring(0, index)}${this.getBlinker()}`;
 
       let timeoutName = `typeText${textArrayIndex}${index}`;
@@ -96,8 +105,14 @@ export default class TypeWriter {
         this.typeText(text, index + 1, textArrayIndex, cb);
       }, this.speed);
     } else {
-      let blinkingTimeout = `blinding${textArrayIndex}${index}`;
+      if (this.lineBreak) {
+        this.selector[this.typeTarget] = `${text}`;
+        let timeoutName = `typeTextCb${textArrayIndex}${index}`;
+        setTimeoutStore[timeoutName] = setTimeout(cb, this.blinkInterval);
+        return;
+      }
 
+      let blinkingTimeout = `blinding${textArrayIndex}${index}`;
       // let it blink
       setTimeoutStore[blinkingTimeout] = setTimeout(() => {
         this.selector[this.typeTarget] = text;
@@ -118,21 +133,25 @@ export default class TypeWriter {
 
   clearText (text, index, textArrayIndex, cb) {
     if (index <= text.length) {
+      if (this.shouldLineBreak(text[text.length - index])) {
+        index = index + 3;
+      }
+
       this.selector[this.typeTarget] = `${text.substring(0, text.length - index)}${this.getBlinker()}`;
+
       let timeoutName = `clearText${textArrayIndex}${index}`;
       setTimeoutStore[timeoutName] = setTimeout(() => {
         this.clearText(text, index + 1, textArrayIndex, cb);
       }, this.speed);
     } else {
       let timeoutName = `clearTextCb${textArrayIndex}${index}`;
-      setTimeoutStore[timeoutName] = setTimeout(cb, this.pause);
+      setTimeoutStore[timeoutName] = setTimeout(cb, this.blinkInterval);
     }
   }
 
   clearSetTimeoutStore () {
     Object.keys(setTimeoutStore).forEach(key => clearTimeout(setTimeoutStore[key]));
   }
-
   isSelectorInput () {
     return this.selector instanceof window.HTMLInputElement && this.selector.type === 'text';
   }
@@ -152,8 +171,15 @@ export default class TypeWriter {
       : '';
   }
 
-  escapeBracket () {
+  normalizeTexts (texts) {
+    if (this.lineBreak) {
+      texts = [texts.join('<br>')];
+    }
+    return texts;
+  }
 
+  shouldLineBreak (char) {
+    return char === '<' || char === '>';
   }
 
   mergeOptions (options) {
@@ -163,7 +189,8 @@ export default class TypeWriter {
       clear: true,
       loop: true,
       selector: '.type-writer',
-      texts: []
+      texts: [],
+      lineBreak: false
     };
 
     Object.keys(options).forEach(key => {

@@ -1,8 +1,10 @@
 import TypeWriter from '../dist/type-writer';
 
-const texts = ['Laravel is the best!', 'Vue is awesome!'];
-
+/**
+ * Turn an input into a type writer
+ */
 let input = document.querySelector('input.type-writer');
+let texts = ['Vue', 'React', 'Angular'];
 
 let inputTypeWriter = new TypeWriter({
   texts,
@@ -18,20 +20,21 @@ input.addEventListener('click', () => { inputTypeWriter.stop(); });
 
 input.addEventListener('blur', () => { inputTypeWriter.start(); });
 
-let paragraph = ['Laravel is the best! <br> Vue is awesome!'];
+/**
+ *  Type each text in a new line
+ *
+ */
+let paragraph = ['Hello world!', 'How are you doing?'];
 
 let paragraphDiv = document.querySelector('div.paragraph');
-console.log(paragraphDiv);
 
 let paragraphTypeWriter = new TypeWriter({
   texts: paragraph,
   selector: paragraphDiv,
   speed: 100,
-  loop: false,
-  clear: false
+  loop: true,
+  clear: true,
+  lineBreak: true
 });
 
-setTimeout(() => {
-  paragraphTypeWriter.start();
-  console.log('called');
-}, 400);
+setTimeout(() => { paragraphTypeWriter.start(); }, 400);

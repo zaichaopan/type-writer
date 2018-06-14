@@ -10,9 +10,12 @@
             height: 100%;
             font-family: sans-serif;
             background-color: black;
-            text-align: center;
             margin-top: 50px;
             color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         h1 {
@@ -20,20 +23,17 @@
             color: white;
         }
 
-
         input {
             border: none;
             border-bottom: 2px solid;
             padding: .5em 1em .5em 1.5em;
-            font-size: 2.5em;
+            font-size: 2rem;
             color: white;
             background: black;
-            background-image: url("https://remoteok.io/assets/search-white.png");
+            background-image: url("./search-white.png");
             background-repeat: no-repeat;
             background-size: 1em;
             background-position: left center;
-
-
         }
 
         input:focus {
@@ -47,17 +47,24 @@
 
         .paragraph {
             color: white;
-            margin-top: 3 rem;
+            height: 5rem;
             font-size: 2rem;
+            margin: 8rem auto;
         }
     </style>
 </head>
 
 <body>
-    <input type="text" class="type-writer" spellcheck="false" placeholder="your next job?">
 
-    <div class="paragraph">
+    <div class="search-container">
+        <input type="text" class="type-writer" spellcheck="false" placeholder="your favorite framework?">
+    </div>
 
+
+    <div class="paragraph-container">
+        <div class="paragraph">
+
+        </div>
     </div>
     <script src="./build/index.js"></script>
 </body>
