@@ -2,7 +2,9 @@
 
 A nice javascript plugin to add cool __typing text effect__ to your site.
 
-![alt text](https://github.com/zaichaopan/type-writer/blob/master/type-writer.gif?raw=true  "demo")
+![demo](https://github.com/zaichaopan/type-writer/blob/master/type-writer.gif?raw=true  "demo")
+
+Play it on [code sandbox](https://codesandbox.io/s/50vyj4zon)
 
 ## Installation
 
@@ -80,4 +82,4 @@ __The stop__ method will __stop__ typing and __clear__ all the timers set by the
 
 ## Examples
 
-You can find more useful examples by navigating to the [examples](https://github.com/zaichaopan/type-writer/tree/master/examples) directory. Or you can check the demo link.
+You can find more useful examples by navigating to the [examples](https://github.com/zaichaopan/type-writer/tree/master/examples) directory. Or you can Play it on [code sandbox](https://codesandbox.io/s/50vyj4zon)
