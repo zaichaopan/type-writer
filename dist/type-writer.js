@@ -155,7 +155,9 @@ function () {
   }, {
     key: "start",
     value: function start() {
+      console.log('should start');
       this.isSelectorInput() ? this.initInputSelector() : this.initNoneInputSelector();
+      console.log(this.shouldStart());
 
       if (this.shouldStart()) {
         this.typing = true;
@@ -264,7 +266,7 @@ function () {
   }, {
     key: "shouldStart",
     value: function shouldStart() {
-      return !this.typing && !this.hasDefaultValue();
+      return this.isSelectorInput() ? !this.typing && !this.hasDefaultValue() : !this.typing;
     }
   }, {
     key: "hasDefaultValue",

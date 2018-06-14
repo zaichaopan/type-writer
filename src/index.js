@@ -36,12 +36,15 @@ export default class TypeWriter {
   }
 
   start () {
+    console.log('should start');
     this.isSelectorInput()
       ? this.initInputSelector()
       : this.initNoneInputSelector();
 
+    console.log(this.shouldStart());
     if (this.shouldStart()) {
       this.typing = true;
+
       this.typeTexts(0);
     }
   }
@@ -135,7 +138,7 @@ export default class TypeWriter {
   }
 
   shouldStart () {
-    return !this.typing && !this.hasDefaultValue();
+    return this.isSelectorInput() ? !this.typing && !this.hasDefaultValue() : !this.typing;
   }
 
   hasDefaultValue () {
@@ -147,6 +150,10 @@ export default class TypeWriter {
       this.selector[this.typeTarget].length
       ? '|'
       : '';
+  }
+
+  escapeBracket () {
+
   }
 
   mergeOptions (options) {

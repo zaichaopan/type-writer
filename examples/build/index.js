@@ -113,6 +113,20 @@ input.addEventListener('click', function () {
 input.addEventListener('blur', function () {
   inputTypeWriter.start();
 });
+var paragraph = ['Laravel is the best! <br> Vue is awesome!'];
+var paragraphDiv = document.querySelector('div.paragraph');
+console.log(paragraphDiv);
+var paragraphTypeWriter = new _typeWriter.default({
+  texts: paragraph,
+  selector: paragraphDiv,
+  speed: 100,
+  loop: false,
+  clear: false
+});
+setTimeout(function () {
+  paragraphTypeWriter.start();
+  console.log('called');
+}, 400);
 
 /***/ }),
 /* 1 */
@@ -460,7 +474,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }, {
           key: "start",
           value: function start() {
+            console.log('should start');
             this.isSelectorInput() ? this.initInputSelector() : this.initNoneInputSelector();
+            console.log(this.shouldStart());
 
             if (this.shouldStart()) {
               this.typing = true;
@@ -569,7 +585,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }, {
           key: "shouldStart",
           value: function shouldStart() {
-            return !this.typing && !this.hasDefaultValue();
+            return this.isSelectorInput() ? !this.typing && !this.hasDefaultValue() : !this.typing;
           }
         }, {
           key: "hasDefaultValue",
