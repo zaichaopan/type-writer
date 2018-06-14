@@ -2,7 +2,7 @@
 
 A nice javascript plugin to add cool __typing text effect__ to your site.
 
-![alt text](./type-writer.gif "demo")
+![alt text](https://github.com/zaichaopan/type-writer/blob/master/type-writer.gif?raw=true  "demo")
 
 ## Installation
 
