@@ -18,10 +18,10 @@ export default class TypeWriter {
 
     this.texts = this.options.texts;
     this.speed = this.options.speed;
-    this.pause = this.options.pause;
+    this.blinkInterval = this.options.blinkInterval;
     this.typing = false;
     this.loop = this.options.loop;
-    this.clearText = this.options.clearText;
+    this.clear = this.options.clear;
   }
 
   initInputSelector () {
@@ -72,7 +72,7 @@ export default class TypeWriter {
 
     if (index < this.texts.length) {
       this.typeText(this.texts[index], 0, index, () => {
-        if (this.clearText) {
+        if (this.clear) {
           this.clearText(this.texts[index], 0, index, () => {
             this.typeTexts(index + 1);
           });
@@ -93,22 +93,30 @@ export default class TypeWriter {
         this.typeText(text, index + 1, textArrayIndex, cb);
       }, this.speed);
     } else {
-      let blinkingTimeout = `binding${textArrayIndex}${index}`;
+      let blinkingTimeout = `blinding${textArrayIndex}${index}`;
 
+      // let it blink
       setTimeoutStore[blinkingTimeout] = setTimeout(() => {
         this.selector[this.typeTarget] = text;
-        let timeoutName = `typeTextCb${textArrayIndex}${index}`;
-        setTimeoutStore[timeoutName] = setTimeout(cb, this.pause);
-      }, 500);
+        let blinkingTimeoutAgain = `blinkOnce${textArrayIndex}${index}`;
+        setTimeoutStore[blinkingTimeoutAgain] = setTimeout(() => {
+          this.selector[this.typeTarget] = `${text}${this.getBlinker()}`;
+          let blinkingTimeoutOnceAgain = `blinkTwice${textArrayIndex}${index}`;
+          setTimeoutStore[blinkingTimeoutOnceAgain] = setTimeout(() => {
+            // finish blinking and type the next text
+            this.selector[this.typeTarget] = text;
+            let timeoutName = `typeTextCb${textArrayIndex}${index}`;
+            setTimeoutStore[timeoutName] = setTimeout(cb, this.blinkInterval);
+          }, this.blinkInterval);
+        }, this.blinkInterval);
+      }, this.blinkInterval);
     }
   }
 
   clearText (text, index, textArrayIndex, cb) {
     if (index <= text.length) {
       this.selector[this.typeTarget] = `${text.substring(0, text.length - index)}${this.getBlinker()}`;
-
       let timeoutName = `clearText${textArrayIndex}${index}`;
-
       setTimeoutStore[timeoutName] = setTimeout(() => {
         this.clearText(text, index + 1, textArrayIndex, cb);
       }, this.speed);
@@ -144,8 +152,8 @@ export default class TypeWriter {
   mergeOptions (options) {
     this.options = {
       speed: 100,
-      pause: 400,
-      clearText: false,
+      blinkInterval: 200,
+      clear: true,
       loop: true,
       selector: '.type-writer',
       texts: []

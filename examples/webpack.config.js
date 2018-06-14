@@ -1,17 +1,13 @@
 const path = require('path');
-const webpack = require('webpack');
 
 module.exports = {
   mode: 'none',
   entry: {
-    app: './src/index.js'
+    app: './index.js'
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'type-writer.js',
-    libraryTarget: 'umd',
-    library: 'type-writer',
-    umdNamedDefine: true
+    path: path.resolve(__dirname, 'build'),
+    filename: 'index.js'
   },
   module: {
     rules: [

@@ -1,0 +1,30 @@
+{
+    "name": "type-writer-example",
+    "version": "1.0.0",
+    "description": "Type writer example",
+    "main": "dist/type-writer.js",
+    "scripts": {
+        "build": "webpack",
+        "watch": "npm run build -- --watch"
+    },
+    "keywords": [
+        "javascript",
+        "type",
+        "writer"
+    ],
+    "author": "Zai Chao Pan <zaichaopan@gmail.com>",
+    "dependencies": {},
+    "devDependencies": {
+        "@babel/core": "^7.0.0-beta.51",
+        "@babel/preset-env": "^7.0.0-beta.51",
+        "babel-loader": "^8.0.0-beta.3",
+        "eslint": "^4.19.1",
+        "eslint-config-standard": "^11.0.0",
+        "eslint-plugin-import": "^2.12.0",
+        "eslint-plugin-node": "^6.0.1",
+        "eslint-plugin-promise": "^3.8.0",
+        "eslint-plugin-standard": "^3.1.0",
+        "webpack": "^4.12.0",
+        "webpack-command": "^0.2.1"
+    }
+}

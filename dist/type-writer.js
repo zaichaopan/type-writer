@@ -1,1 +1,305 @@
-!function(t,e){"object"==typeof exports&&"object"==typeof module?module.exports=e():"function"==typeof define&&define.amd?define("type-writer",[],e):"object"==typeof exports?exports["type-writer"]=e():t["type-writer"]=e()}(window,function(){return function(t){var e={};function o(n){if(e[n])return e[n].exports;var i=e[n]={i:n,l:!1,exports:{}};return t[n].call(i.exports,i,i.exports,o),i.l=!0,i.exports}return o.m=t,o.c=e,o.d=function(t,e,n){o.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:n})},o.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},o.t=function(t,e){if(1&e&&(t=o(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var n=Object.create(null);if(o.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var i in t)o.d(n,i,function(e){return t[e]}.bind(null,i));return n},o.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return o.d(e,"a",e),e},o.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},o.p="",o(o.s=0)}([function(t,e,o){"use strict";function n(t,e){for(var o=0;o<e.length;o++){var n=e[o];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(t,n.key,n)}}Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0;var i={},r=function(){function t(e){!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,t),this.mergeOptions(e),this.init()}var e,o,r;return e=t,(o=[{key:"init",value:function(){if(this.selector="string"==typeof this.options.selector?document.querySelector(this.options.selector):this.options.selector,void 0===this.selector||null===this.selector)return console.log("Please provide a valid selector.");this.texts=this.options.texts,this.speed=this.options.speed,this.pause=this.options.pause,this.typing=!1,this.loop=this.options.loop,this.clearText=this.options.clearText}},{key:"initInputSelector",value:function(){this.typeTarget="value",this.selector.defaultPlaceholder=this.selector.defaultPlaceholder||this.selector.placeholder,this.selector.placeholder=""}},{key:"initNoneInputSelector",value:function(){this.typeTarget="innerHTML"}},{key:"start",value:function(){this.isSelectorInput()?this.initInputSelector():this.initNoneInputSelector(),this.shouldStart()&&(this.typing=!0,this.typeTexts(0))}},{key:"restoreInputSelector",value:function(){this.selector.placeholder=this.selector.defaultPlaceholder}},{key:"restoreNoneInputSelector",value:function(){}},{key:"stop",value:function(){this.typing&&(this.isSelectorInput()?this.restoreInputSelector():this.restoreNoneInputSelector(),this.clearSetTimeoutStore(),this.typing=!1,this.selector[this.typeTarget]="")}},{key:"typeTexts",value:function(t){var e=this;this.loop&&void 0===this.texts[t]?this.typeTexts(0):t<this.texts.length&&this.typeText(this.texts[t],0,t,function(){e.clearText?e.clearText(e.texts[t],0,t,function(){e.typeTexts(t+1)}):e.typeTexts(t+1)})}},{key:"typeText",value:function(t,e,o,n){var r=this;if(e<=t.length){this.selector[this.typeTarget]="".concat(t.substring(0,e)).concat(this.getBlinker());var s="typeText".concat(o).concat(e);i[s]=setTimeout(function(){r.typeText(t,e+1,o,n)},this.speed)}else{var c="binding".concat(o).concat(e);i[c]=setTimeout(function(){r.selector[r.typeTarget]=t;var s="typeTextCb".concat(o).concat(e);i[s]=setTimeout(n,r.pause)},500)}}},{key:"clearText",value:function(t,e,o,n){var r=this;if(e<=t.length){this.selector[this.typeTarget]="".concat(t.substring(0,t.length-e)).concat(this.getBlinker());var s="clearText".concat(o).concat(e);i[s]=setTimeout(function(){r.clearText(t,e+1,o,n)},this.speed)}else{var c="clearTextCb".concat(o).concat(e);i[c]=setTimeout(n,this.pause)}}},{key:"clearSetTimeoutStore",value:function(){Object.keys(i).forEach(function(t){return clearTimeout(i[t])})}},{key:"isSelectorInput",value:function(){return this.selector instanceof window.HTMLInputElement&&"text"===this.selector.type}},{key:"shouldStart",value:function(){return!this.typing&&!this.hasDefaultValue()}},{key:"hasDefaultValue",value:function(){return""!==this.selector[this.typeTarget]}},{key:"getBlinker",value:function(){return this.selector[this.typeTarget].indexOf("|")!==this.selector[this.typeTarget].length?"|":""}},{key:"mergeOptions",value:function(t){var e=this;this.options={speed:100,pause:400,clearText:!1,loop:!0,selector:".type-writer",texts:[]},Object.keys(t).forEach(function(o){e.options[o]=t[o]})}}])&&n(e.prototype,o),r&&n(e,r),t}();e.default=r}])});
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define("type-writer", [], factory);
+	else if(typeof exports === 'object')
+		exports["type-writer"] = factory();
+	else
+		root["type-writer"] = factory();
+})(window, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var setTimeoutStore = {};
+
+var TypeWriter =
+/*#__PURE__*/
+function () {
+  function TypeWriter(options) {
+    _classCallCheck(this, TypeWriter);
+
+    this.mergeOptions(options);
+    this.init();
+  }
+
+  _createClass(TypeWriter, [{
+    key: "init",
+    value: function init() {
+      this.selector = typeof this.options.selector === 'string' ? document.querySelector(this.options.selector) : this.options.selector;
+
+      if (this.selector === undefined || this.selector === null) {
+        return console.log('Please provide a valid selector.');
+      }
+
+      this.texts = this.options.texts;
+      this.speed = this.options.speed;
+      this.blinkInterval = this.options.blinkInterval;
+      this.typing = false;
+      this.loop = this.options.loop;
+      this.clear = this.options.clear;
+    }
+  }, {
+    key: "initInputSelector",
+    value: function initInputSelector() {
+      this.typeTarget = 'value';
+      this.selector.defaultPlaceholder = this.selector.defaultPlaceholder || this.selector.placeholder;
+      this.selector.placeholder = '';
+    }
+  }, {
+    key: "initNoneInputSelector",
+    value: function initNoneInputSelector() {
+      this.typeTarget = 'innerHTML';
+    }
+  }, {
+    key: "start",
+    value: function start() {
+      this.isSelectorInput() ? this.initInputSelector() : this.initNoneInputSelector();
+
+      if (this.shouldStart()) {
+        this.typing = true;
+        this.typeTexts(0);
+      }
+    }
+  }, {
+    key: "restoreInputSelector",
+    value: function restoreInputSelector() {
+      this.selector.placeholder = this.selector.defaultPlaceholder;
+    }
+  }, {
+    key: "restoreNoneInputSelector",
+    value: function restoreNoneInputSelector() {}
+  }, {
+    key: "stop",
+    value: function stop() {
+      if (this.typing) {
+        this.isSelectorInput() ? this.restoreInputSelector() : this.restoreNoneInputSelector();
+        this.clearSetTimeoutStore();
+        this.typing = false;
+        this.selector[this.typeTarget] = '';
+      }
+    }
+  }, {
+    key: "typeTexts",
+    value: function typeTexts(index) {
+      var _this = this;
+
+      if (this.loop && this.texts[index] === undefined) {
+        this.typeTexts(0);
+        return;
+      }
+
+      if (index < this.texts.length) {
+        this.typeText(this.texts[index], 0, index, function () {
+          if (_this.clear) {
+            _this.clearText(_this.texts[index], 0, index, function () {
+              _this.typeTexts(index + 1);
+            });
+          } else {
+            _this.typeTexts(index + 1);
+          }
+        });
+      }
+    }
+  }, {
+    key: "typeText",
+    value: function typeText(text, index, textArrayIndex, cb) {
+      var _this2 = this;
+
+      if (index <= text.length) {
+        this.selector[this.typeTarget] = "".concat(text.substring(0, index)).concat(this.getBlinker());
+        var timeoutName = "typeText".concat(textArrayIndex).concat(index);
+        setTimeoutStore[timeoutName] = setTimeout(function () {
+          _this2.typeText(text, index + 1, textArrayIndex, cb);
+        }, this.speed);
+      } else {
+        var blinkingTimeout = "blinding".concat(textArrayIndex).concat(index); // let it blink
+
+        setTimeoutStore[blinkingTimeout] = setTimeout(function () {
+          _this2.selector[_this2.typeTarget] = text;
+          var blinkingTimeoutAgain = "blinkOnce".concat(textArrayIndex).concat(index);
+          setTimeoutStore[blinkingTimeoutAgain] = setTimeout(function () {
+            _this2.selector[_this2.typeTarget] = "".concat(text).concat(_this2.getBlinker());
+            var blinkingTimeoutOnceAgain = "blinkTwice".concat(textArrayIndex).concat(index);
+            setTimeoutStore[blinkingTimeoutOnceAgain] = setTimeout(function () {
+              // finish blinking and type the next text
+              _this2.selector[_this2.typeTarget] = text;
+              var timeoutName = "typeTextCb".concat(textArrayIndex).concat(index);
+              setTimeoutStore[timeoutName] = setTimeout(cb, _this2.blinkInterval);
+            }, _this2.blinkInterval);
+          }, _this2.blinkInterval);
+        }, this.blinkInterval);
+      }
+    }
+  }, {
+    key: "clearText",
+    value: function clearText(text, index, textArrayIndex, cb) {
+      var _this3 = this;
+
+      if (index <= text.length) {
+        this.selector[this.typeTarget] = "".concat(text.substring(0, text.length - index)).concat(this.getBlinker());
+        var timeoutName = "clearText".concat(textArrayIndex).concat(index);
+        setTimeoutStore[timeoutName] = setTimeout(function () {
+          _this3.clearText(text, index + 1, textArrayIndex, cb);
+        }, this.speed);
+      } else {
+        var _timeoutName = "clearTextCb".concat(textArrayIndex).concat(index);
+
+        setTimeoutStore[_timeoutName] = setTimeout(cb, this.pause);
+      }
+    }
+  }, {
+    key: "clearSetTimeoutStore",
+    value: function clearSetTimeoutStore() {
+      Object.keys(setTimeoutStore).forEach(function (key) {
+        return clearTimeout(setTimeoutStore[key]);
+      });
+    }
+  }, {
+    key: "isSelectorInput",
+    value: function isSelectorInput() {
+      return this.selector instanceof window.HTMLInputElement && this.selector.type === 'text';
+    }
+  }, {
+    key: "shouldStart",
+    value: function shouldStart() {
+      return !this.typing && !this.hasDefaultValue();
+    }
+  }, {
+    key: "hasDefaultValue",
+    value: function hasDefaultValue() {
+      return this.selector[this.typeTarget] !== '';
+    }
+  }, {
+    key: "getBlinker",
+    value: function getBlinker() {
+      return this.selector[this.typeTarget].indexOf('|') !== this.selector[this.typeTarget].length ? '|' : '';
+    }
+  }, {
+    key: "mergeOptions",
+    value: function mergeOptions(options) {
+      var _this4 = this;
+
+      this.options = {
+        speed: 100,
+        blinkInterval: 200,
+        clear: true,
+        loop: true,
+        selector: '.type-writer',
+        texts: []
+      };
+      Object.keys(options).forEach(function (key) {
+        _this4.options[key] = options[key];
+      });
+    }
+  }]);
+
+  return TypeWriter;
+}();
+
+exports.default = TypeWriter;
+
+/***/ })
+/******/ ]);
+});
