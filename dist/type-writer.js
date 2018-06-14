@@ -112,8 +112,6 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var setTimeoutStore = {};
-
 var TypeWriter =
 /*#__PURE__*/
 function () {
@@ -140,6 +138,7 @@ function () {
       this.typing = false;
       this.loop = this.options.loop;
       this.clear = this.options.clear;
+      this.setTimeOutStore = {};
     }
   }, {
     key: "initInputSelector",
@@ -221,7 +220,7 @@ function () {
 
         this.selector[this.typeTarget] = "".concat(text.substring(0, index)).concat(this.getBlinker());
         var timeoutName = "typeText".concat(textArrayIndex).concat(index);
-        setTimeoutStore[timeoutName] = setTimeout(function () {
+        this.setTimeOutStore[timeoutName] = setTimeout(function () {
           _this2.typeText(text, index + 1, textArrayIndex, cb);
         }, this.speed);
       } else {
@@ -230,23 +229,23 @@ function () {
 
           var _timeoutName = "typeTextCb".concat(textArrayIndex).concat(index);
 
-          setTimeoutStore[_timeoutName] = setTimeout(cb, this.blinkInterval);
+          this.setTimeOutStore[_timeoutName] = setTimeout(cb, this.blinkInterval);
           return;
         }
 
         var blinkingTimeout = "blinding".concat(textArrayIndex).concat(index); // let it blink
 
-        setTimeoutStore[blinkingTimeout] = setTimeout(function () {
+        this.setTimeOutStore[blinkingTimeout] = setTimeout(function () {
           _this2.selector[_this2.typeTarget] = text;
           var blinkingTimeoutAgain = "blinkOnce".concat(textArrayIndex).concat(index);
-          setTimeoutStore[blinkingTimeoutAgain] = setTimeout(function () {
+          _this2.setTimeOutStore[blinkingTimeoutAgain] = setTimeout(function () {
             _this2.selector[_this2.typeTarget] = "".concat(text).concat(_this2.getBlinker());
             var blinkingTimeoutOnceAgain = "blinkTwice".concat(textArrayIndex).concat(index);
-            setTimeoutStore[blinkingTimeoutOnceAgain] = setTimeout(function () {
+            _this2.setTimeOutStore[blinkingTimeoutOnceAgain] = setTimeout(function () {
               // finish blinking and type the next text
               _this2.selector[_this2.typeTarget] = text;
               var timeoutName = "typeTextCb".concat(textArrayIndex).concat(index);
-              setTimeoutStore[timeoutName] = setTimeout(cb, _this2.blinkInterval);
+              _this2.setTimeOutStore[timeoutName] = setTimeout(cb, _this2.blinkInterval);
             }, _this2.blinkInterval);
           }, _this2.blinkInterval);
         }, this.blinkInterval);
@@ -264,20 +263,22 @@ function () {
 
         this.selector[this.typeTarget] = "".concat(text.substring(0, text.length - index)).concat(this.getBlinker());
         var timeoutName = "clearText".concat(textArrayIndex).concat(index);
-        setTimeoutStore[timeoutName] = setTimeout(function () {
+        this.setTimeOutStore[timeoutName] = setTimeout(function () {
           _this3.clearText(text, index + 1, textArrayIndex, cb);
         }, this.speed);
       } else {
         var _timeoutName2 = "clearTextCb".concat(textArrayIndex).concat(index);
 
-        setTimeoutStore[_timeoutName2] = setTimeout(cb, this.blinkInterval);
+        this.setTimeOutStore[_timeoutName2] = setTimeout(cb, this.blinkInterval);
       }
     }
   }, {
     key: "clearSetTimeoutStore",
     value: function clearSetTimeoutStore() {
-      Object.keys(setTimeoutStore).forEach(function (key) {
-        return clearTimeout(setTimeoutStore[key]);
+      var _this4 = this;
+
+      Object.keys(this.setTimeOutStore).forEach(function (key) {
+        return clearTimeout(_this4.setTimeOutStore[key]);
       });
     }
   }, {
@@ -317,7 +318,7 @@ function () {
   }, {
     key: "mergeOptions",
     value: function mergeOptions(options) {
-      var _this4 = this;
+      var _this5 = this;
 
       this.options = {
         speed: 100,
@@ -329,7 +330,7 @@ function () {
         lineBreak: false
       };
       Object.keys(options).forEach(function (key) {
-        _this4.options[key] = options[key];
+        _this5.options[key] = options[key];
       });
     }
   }]);

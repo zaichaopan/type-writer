@@ -14,7 +14,7 @@ let inputTypeWriter = new TypeWriter({
   clear: true
 });
 
-setTimeout(() => { inputTypeWriter.start(); }, 400);
+setTimeout(() => { inputTypeWriter.start(); }, 500);
 
 input.addEventListener('click', () => { inputTypeWriter.stop(); });
 

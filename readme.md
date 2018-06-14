@@ -8,6 +8,12 @@ A nice javascript plugin to add cool __typing text effect__ to your site.
 
 ## Usage
 
+* Install the plugin
+
+```bash
+npm install --save @zai/type-writer
+```
+
 * Import the class
 
 ```js
