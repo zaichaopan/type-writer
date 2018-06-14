@@ -2,7 +2,7 @@
 
 A nice javascript plugin to add cool __typing text effect__ to your site.
 
-[demo](#)
+![alt text](./type-writer.gif "demo")
 
 ## Installation
 
@@ -11,13 +11,13 @@ A nice javascript plugin to add cool __typing text effect__ to your site.
 * Install the plugin
 
 ```bash
-npm install --save @zai/type-writer
+npm install --save @zaichaopan/type-writer
 ```
 
 * Import the class
 
 ```js
-import TypeWriter from '@zai/type-writer';
+import TypeWriter from '@zaichaopan/type-writer';
 ```
 
 * Instantiate a TypeWriter instance and pass through your config option Object. Supported options:
@@ -38,7 +38,7 @@ import TypeWriter from '@zai/type-writer';
 A typical TypeWriter instance will look like
 
 ```js
-import TypeWriter from '@zai/type-writer';
+import TypeWriter from '@zaichaopan/type-writer';
 
 let input = document.querySelector('input.type-writer');
 const texts = ['Javascript', 'Vue', 'React', 'Angular'];

@@ -128,7 +128,7 @@ var paragraphTypeWriter = new _typeWriter.default({
   selector: paragraphDiv,
   speed: 100,
   loop: true,
-  clear: true,
+  clear: false,
   lineBreak: true
 });
 setTimeout(function () {
