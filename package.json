@@ -1,6 +1,6 @@
 {
   "name": "@zaichaopan/type-writer",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A nice type writer to use",
   "main": "dist/type-writer.js",
   "scripts": {
